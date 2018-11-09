@@ -11,6 +11,7 @@ struct Configuration {
     static let localMediaURLs = true
     static let touchScreen = TouchScreen.pct2485
     static let mbtilesPath = "/Users/Tim/Xcode/UBC/CanadaShoreIceRoad.mbtiles"
+    static let broadcastPort: UInt16 = 13001
 }
 
 

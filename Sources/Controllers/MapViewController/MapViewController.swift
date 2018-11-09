@@ -13,12 +13,13 @@ struct MapConstants {
 }
 
 
-class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, NSGestureRecognizerDelegate {
+class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, NSGestureRecognizerDelegate, SocketManagerDelegate {
     static let storyboard = "Map"
 
-    @IBOutlet weak var mapView: CustomMapView!
+    @IBOutlet private weak var mapView: CustomMapView!
 
     var gestureManager: GestureManager!
+    private let socketManager = SocketManager(networkConfiguration: NetworkConfiguration(broadcastHost: "192.168.0.255", nodePort: Configuration.broadcastPort))
     private var annotationForTouch = [Touch: MKAnnotation]()
     private var currentTextScale: CGFloat = 1
     private var initialized = false
@@ -60,6 +61,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     override func viewDidLoad() {
         super.viewDidLoad()
         gestureManager = GestureManager(responder: self)
+        socketManager.delegate = self
 
         setupMap()
         setupGestures()
@@ -69,6 +71,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         super.viewDidAppear()
 
         if !initialized {
+            // TODO: Set map to initial position
             initialized = true
         }
     }
@@ -165,6 +168,22 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         default:
             return
         }
+    }
+
+
+    // MARK: SocketManagerDelegate
+
+    func handleError(_ message: String) {
+        print("Socket error: \(message)")
+    }
+
+    func handlePacket(_ packet: Packet) {
+        guard let touch = Touch(from: packet) else {
+            return
+        }
+
+        convertToScreen(touch)
+        gestureManager.handle(touch)
     }
 
 
@@ -315,5 +334,13 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         let scaleFactor = (1 - mapScalePercent).rounded(toPlaces: 1)
         let clamped = clamp(scaleFactor, min: 0.4, max: 1)
         return CGFloat(clamped)
+    }
+
+    /// Converts a position received from a touch screen to the coordinate of the current devices bounds.
+    private func convertToScreen(_ touch: Touch) {
+        let screen = NSScreen.at(position: touch.screen)
+        let xPos = (touch.position.x / Configuration.touchScreen.touchSize.width * CGFloat(screen.frame.width)) + screen.frame.origin.x
+        let yPos = (1 - touch.position.y / Configuration.touchScreen.touchSize.height) * CGFloat(screen.frame.height)
+        touch.position = CGPoint(x: xPos, y: yPos)
     }
 }
