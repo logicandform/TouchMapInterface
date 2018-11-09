@@ -9,8 +9,9 @@ let style = Style()
 struct Configuration {
     static let serverURL = "http://localhost:3000"
     static let localMediaURLs = true
+    static let touchScreenPosition = 1
     static let touchScreen = TouchScreen.pct2485
-    static let mbtilesPath = "/Users/Tim/Xcode/UBC/CanadaShoreIceRoad.mbtiles"
+    static let customMBTilesPath: String? = "/Users/Tim/Xcode/UBC/CanadaShoreIceRoad.mbtiles"
     static let broadcastPort: UInt16 = 13001
 }
 
@@ -28,7 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: Helpers
 
     private func setupApplication() {
-        let screen = NSScreen.at(position: 1)
+        let screen = NSScreen.at(position: Configuration.touchScreenPosition)
         let mapController = MapViewController.instance()
         let mapWindow = BorderlessWindow(frame: screen.frame, controller: mapController, level: style.mapWindowLevel)
         mapWindow.setFrame(screen.frame, display: true)

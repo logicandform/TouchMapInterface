@@ -90,7 +90,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     // MARK: Setup
 
     private func setupMap() {
-        if let overlay = MBXMBTilesOverlay(mbTilesPath: Configuration.mbtilesPath) {
+        if let tilesPath = Configuration.customMBTilesPath, let overlay = MBXMBTilesOverlay(mbTilesPath: tilesPath) {
             overlay.canReplaceMapContent = true
             mapView.addOverlay(overlay)
         }
@@ -338,6 +338,9 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
 
     /// Converts a position received from a touch screen to the coordinate of the current devices bounds.
     private func convertToScreen(_ touch: Touch) {
+        guard touch.screen == Configuration.touchScreenPosition else {
+            return
+        }
         let screen = NSScreen.at(position: touch.screen)
         let xPos = (touch.position.x / Configuration.touchScreen.touchSize.width * CGFloat(screen.frame.width)) + screen.frame.origin.x
         let yPos = (1 - touch.position.y / Configuration.touchScreen.touchSize.height) * CGFloat(screen.frame.height)
