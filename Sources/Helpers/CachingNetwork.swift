@@ -30,29 +30,6 @@ final class CachingNetwork {
     }
 
 
-    // MARK: Generic
-
-    /// Loads thumbnail for events using local or remote url depending on configuration settings
-    static func getImage(for event: TimelineEvent, completion: @escaping (NSImage?) -> Void) {
-        if Configuration.localMediaURLs {
-            if let localURL = event.localThumbnail {
-                let image = NSImage(contentsOf: localURL)
-                completion(image)
-            } else {
-                completion(nil)
-            }
-        } else {
-            if let url = event.thumbnail {
-                Alamofire.request(url).responseImage { response in
-                    completion(response.value)
-                }
-            } else {
-                completion(nil)
-            }
-        }
-    }
-
-
     // MARK: Schools
 
     static func getSchools(page: Int = 0, load: [School] = []) throws -> Promise<[School]> {

@@ -19,13 +19,12 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     @IBOutlet weak var mapView: CustomMapView!
 
     var gestureManager: GestureManager!
-    private var mapHandler: MapHandler?
     private var annotationForTouch = [Touch: MKAnnotation]()
     private var currentTextScale: CGFloat = 1
     private var initialized = false
 
     private struct Constants {
-        static let maxZoomWidth = MapConstants.canadaRect.size.width / Double(Configuration.appsPerScreen)
+        static let maxZoomWidth = MapConstants.canadaRect.size.width
         static let minZoomWidth = 424500.0
         static let annotationHitSize = CGSize(width: 40, height: 40)
         static let doubleTapScale = 0.5
@@ -61,7 +60,6 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     override func viewDidLoad() {
         super.viewDidLoad()
         gestureManager = GestureManager(responder: self)
-        TouchManager.instance.register(gestureManager, for: .mapExplorer)
 
         setupMap()
         setupGestures()
@@ -71,7 +69,6 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         super.viewDidAppear()
 
         if !initialized {
-            mapHandler?.reset(animated: false)
             initialized = true
         }
     }
@@ -90,8 +87,6 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     // MARK: Setup
 
     private func setupMap() {
-        mapHandler = MapHandler(mapView: mapView, controller: self)
-        ConnectionManager.instance.mapHandler = mapHandler
         if let overlay = MBXMBTilesOverlay(mbTilesPath: Configuration.mbtilesPath) {
             overlay.canReplaceMapContent = true
             mapView.addOverlay(overlay)
@@ -134,11 +129,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
                 mapRect.size = MKMapSize(width: scaledWidth, height: scaledHeight)
             }
             mapRect.origin += MKMapPoint(x: translationX, y: translationY)
-            mapHandler?.send(mapRect, for: pinch.state)
-        case .ended:
-            mapHandler?.endActivity()
-        case .possible, .failed:
-            mapHandler?.endUpdates()
+            mapView.setVisibleMapRect(mapRect, animated: false)
         default:
             return
         }
@@ -248,7 +239,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
             let translationX = (newMapRect.size.width / 2) - newMapRect.size.width * Double(annotationPosition.x / mapView.frame.width)
             let translationY = -newMapRect.size.height * (1 - Double(annotationPosition.y / mapView.frame.height))
             newMapRect.origin += MKMapPoint(x: translationX, y: translationY)
-            mapHandler?.animate(to: newMapRect, type: .clusterTap)
+            mapView.setVisibleMapRect(newMapRect, animated: true)
         default:
             return
         }
@@ -259,9 +250,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
             return
         }
 
-        let location = window.frame.origin + position
-        let info: JSON = [Keys.app: appID, Keys.id: record.id, Keys.position: location.toJSON(), Keys.type: record.type.rawValue]
-        DistributedNotificationCenter.default().postNotificationName(RecordNotification.display.name, object: nil, userInfo: info, deliverImmediately: true)
+        // TODO: Display window at point
     }
 
     private func addRecordsToMap() {

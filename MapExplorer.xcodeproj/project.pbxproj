@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		220329092066F20900FFD9E2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220329082066F20900FFD9E2 /* Data.swift */; };
-		2204621220472E3D0067D9FB /* MapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2204621120472E3C0067D9FB /* MapHandler.swift */; };
 		220AE86120ED48C200F6E9AA /* Months.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220AE86020ED48C200F6E9AA /* Months.swift */; };
 		2213CDCA21766326003C695F /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2213CDC921766326003C695F /* NSView.swift */; };
 		221C629F203B4906009493DA /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221C629E203B4906009493DA /* School.swift */; };
@@ -76,7 +75,6 @@
 /* Begin PBXFileReference section */
 		0457AC7458D91763AF1BEE6E /* Pods_MapExplorer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapExplorer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		220329082066F20900FFD9E2 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		2204621120472E3C0067D9FB /* MapHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHandler.swift; sourceTree = "<group>"; };
 		220AE86020ED48C200F6E9AA /* Months.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Months.swift; sourceTree = "<group>"; };
 		2213CDC921766326003C695F /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
 		221C629E203B4906009493DA /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
@@ -228,7 +226,6 @@
 			children = (
 				222AB407203DF8F5002BFAF2 /* Map.storyboard */,
 				22290C1F2028FA1E000E0573 /* MapViewController.swift */,
-				2204621120472E3C0067D9FB /* MapHandler.swift */,
 				3F946244205C59750056933C /* Annotations */,
 				22368E272037918F00D03A0E /* Views */,
 				22FCB3922171772B00CC2AEE /* Tiles */,
@@ -614,7 +611,6 @@
 				22F3EBA8215313CB00FCFF6B /* Animations.swift in Sources */,
 				22290C2C2028FA1F000E0573 /* MapViewController.swift in Sources */,
 				3F2FAB5D204F7D9E002EDF5D /* Collection.swift in Sources */,
-				2204621220472E3D0067D9FB /* MapHandler.swift in Sources */,
 				226A451A214F1FA300860F0E /* RecordType.swift in Sources */,
 				2222B13A20D85BD700ECCB5D /* ApplicationType.swift in Sources */,
 				22318DE0202B984F0092937C /* ResponseHandler.swift in Sources */,
