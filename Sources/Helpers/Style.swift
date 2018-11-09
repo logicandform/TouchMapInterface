@@ -39,45 +39,7 @@ final class Style {
     let touchIndicatorWindowLevel = NSWindow.Level(33)
 
 
-    // MARK: Timeline
-
-    let timelineBackgroundColor = NSColor(white: 0.1, alpha: 0.95)
-    let timelineBorderColor = NSColor.gray
-    let timelineShadingColor = NSColor.black.withAlphaComponent(0.5)
-    let timelineHeaderText = NSColor.gray
-    let timelineBorderWidth: CGFloat = 2
-    let timelineHeaderHeight: CGFloat = 30
-    let timelineHeaderOffset: CGFloat = 18
-    let timelineFlagBackgroundColor = NSColor.black.withAlphaComponent(0.8)
-    let timelineItemWidth: CGFloat = 180
-    let timelineFlagPoleWidth: CGFloat = 2
-    let timelineTailColor = NSColor(white: 0.2, alpha: 1)
-    let timelineTailWidth: CGFloat = 1
-    let timelineTailMargin: CGFloat = 9
-    lazy var timelineTailGap: CGFloat = timelineTailWidth + timelineTailMargin
-    let timelineTailMarkerWidth: CGFloat = 1
-
-    var timelineTitleAttributes: [NSAttributedString.Key: Any] {
-        let font = NSFont(name: "Soleil", size: 14) ?? NSFont.systemFont(ofSize: 14)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-
-        return [.paragraphStyle: paragraphStyle,
-                .font: font,
-                .foregroundColor: NSColor.white,
-                .kern: 1]
-    }
-
-    var timelineDateAttributes: [NSAttributedString.Key: Any] {
-        let font = NSFont(name: "Soleil", size: 9) ?? NSFont.systemFont(ofSize: 9)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-
-        return [.paragraphStyle: paragraphStyle,
-                .font: font,
-                .foregroundColor: NSColor.white,
-                .kern: 1]
-    }
+    // MARK: Title Attributes
 
     var mapLabelAttributes: [NSAttributedString.Key: Any] {
         let fontSize: CGFloat = 26

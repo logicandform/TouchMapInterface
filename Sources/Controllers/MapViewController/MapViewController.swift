@@ -34,6 +34,8 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         static let animationDuration = 0.5
         static let recordWindowOffset: CGFloat = 20
         static let mapTitleUpdateThreshold = 10000000.0
+        static let indicatorRadius: CGFloat = 4
+        static let indicatorColor = NSColor.white
     }
 
     private struct Keys {
@@ -183,6 +185,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         }
 
         convertToScreen(touch)
+        displayIndicator(for: touch)
         gestureManager.handle(touch)
     }
 
@@ -345,5 +348,28 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         let xPos = (touch.position.x / Configuration.touchScreen.touchSize.width * CGFloat(screen.frame.width)) + screen.frame.origin.x
         let yPos = (1 - touch.position.y / Configuration.touchScreen.touchSize.height) * CGFloat(screen.frame.height)
         touch.position = CGPoint(x: xPos, y: yPos)
+    }
+
+    /// Displays a touch indicator at the given position
+    private func displayIndicator(for touch: Touch) {
+        let screen = NSScreen.at(position: touch.screen)
+        let position = touch.position.transformed(to: screen.frame)
+        let radius = Constants.indicatorRadius
+        let frame = CGRect(origin: CGPoint(x: position.x - radius, y: position.y - radius), size: CGSize(width: 2*radius, height: 2*radius))
+        let indicator = NSView(frame: frame)
+        indicator.wantsLayer = true
+        indicator.layer?.cornerRadius = radius
+        indicator.layer?.masksToBounds = true
+        indicator.layer?.backgroundColor = Constants.indicatorColor.cgColor
+        view.addSubview(indicator)
+
+        NSAnimationContext.runAnimationGroup({ _ in
+            NSAnimationContext.current.duration = Constants.animationDuration
+            indicator.animator().alphaValue = 0
+            indicator.animator().frame.size = .zero
+            indicator.animator().frame.origin = CGPoint(x: indicator.frame.origin.x + radius, y: indicator.frame.origin.y + radius)
+        }, completionHandler: {
+            indicator.removeFromSuperview()
+        })
     }
 }
