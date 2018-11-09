@@ -1,0 +1,6 @@
+framework module Pods_MapExplorer {
+  umbrella header "Pods-MapExplorer-umbrella.h"
+
+  export *
+  module * { export * }
+}
