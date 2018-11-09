@@ -19,7 +19,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     @IBOutlet private weak var mapView: CustomMapView!
 
     var gestureManager: GestureManager!
-    private let socketManager = SocketManager(networkConfiguration: NetworkConfiguration(broadcastHost: "192.168.0.255", nodePort: Configuration.broadcastPort))
+    private let socketManager = SocketManager(networkConfiguration: NetworkConfiguration(nodePort: Configuration.broadcastPort))
     private var annotationForTouch = [Touch: MKAnnotation]()
     private var currentTextScale: CGFloat = 1
     private var initialized = false
