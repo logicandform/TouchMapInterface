@@ -7,12 +7,10 @@ let style = Style()
 
 
 struct Configuration {
-    static let serverURL = "http://localhost:3000"
-    static let localMediaURLs = true
+    static let touchPort: UInt16 = 13001
     static let touchScreenPosition = 1
     static let touchScreen = TouchScreen.pct2485
     static let customMBTilesPath: String? = nil
-    static let touchPort: UInt16 = 13001
 }
 
 
