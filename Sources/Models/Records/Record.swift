@@ -15,7 +15,12 @@ class Record: Hashable {
     var relatedRecordsForType = [RecordType: Set<Record>]()
 
     var relatedRecords: [Record] {
-        return relatedRecordsForType.values.reduce([], +)
+        return relatedRecordsForType.values.reduce([], +).sorted { lhs, rhs in
+            if lhs.type.sortOrder == rhs.type.sortOrder {
+                return lhs.id < rhs.id
+            }
+            return lhs.type.sortOrder < rhs.type.sortOrder
+        }
     }
 
     var hashValue: Int {
@@ -32,6 +37,17 @@ class Record: Hashable {
         self.description = description
         self.dates = dates
         self.coordinate = coordinate
+    }
+
+
+    // MARK: API
+
+    func relate(to record: Record) {
+        if let siblings = relatedRecordsForType[record.type] {
+            relatedRecordsForType[record.type] = siblings.union([record])
+        } else {
+            relatedRecordsForType[record.type] = [record]
+        }
     }
 
 

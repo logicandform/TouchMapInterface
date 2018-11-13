@@ -24,16 +24,25 @@ final class RecordManager {
 
     /// Creates mock records and relates them to one another
     func initialize() {
-
         guard let jsonURL = Bundle.main.url(forResource: "cities", withExtension: "json"), let data = try? Data(contentsOf: jsonURL), let json = try? JSONSerialization .jsonObject(with: data, options: []) as? [JSON], let citiesJSON = json else {
-            print("Failed to serialize City records from cities.json file.")
-            return
+            fatalError("Failed to serialize City records from cities.json file.")
         }
 
         let cities = citiesJSON.compactMap { City(json: $0) }
         store(cities, for: .city)
 
-//        createRelationships()
+        // Create events and individuals to relate to each city
+        var siblings = [Record]()
+        for id in (1 ... 10) {
+            siblings.append(Record(type: .event, id: id, title: "Event \(id)", description: "Description", dates: nil, coordinate: nil))
+            siblings.append(Record(type: .individual, id: id, title: "Person \(id)", description: "Description", dates: nil, coordinate: nil))
+        }
+
+        for city in cities {
+            for sibling in siblings {
+                city.relate(to: sibling)
+            }
+        }
     }
 
     func allRecords() -> [Record] {
@@ -67,17 +76,5 @@ final class RecordManager {
         for record in records {
             recordsForType[type]?[record.id] = record
         }
-    }
-
-    private func createRelationships() {
-        for (_, records) in recordsForType {
-            for (_, record) in records {
-                makeRelationships(for: record)
-            }
-        }
-    }
-
-    private func makeRelationships(for record: Record) {
-
     }
 }

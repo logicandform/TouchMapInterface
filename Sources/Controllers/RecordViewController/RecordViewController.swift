@@ -51,7 +51,7 @@ class RecordViewController: BaseViewController, NSCollectionViewDelegateFlowLayo
         windowDragArea.alphaValue = 0
         collectionView.alphaValue = 0
         titleLabel.attributedStringValue = NSAttributedString(string: record.title, attributes: style.windowTitleAttributes)
-        windowDragAreaHighlight.layer?.backgroundColor = style.collectionColor.cgColor
+        windowDragAreaHighlight.layer?.backgroundColor = record.type.color.cgColor
     }
 
     private func setupRelationshipHelper() {
@@ -65,7 +65,6 @@ class RecordViewController: BaseViewController, NSCollectionViewDelegateFlowLayo
     private func setupCollectionView() {
         collectionView.register(InfoCollectionItemView.self, forItemWithIdentifier: InfoCollectionItemView.identifier)
         collectionView.register(RecordCollectionItemView.self, forItemWithIdentifier: RecordCollectionItemView.identifier)
-        collectionScrollView.verticalScroller?.alphaValue = 0
         load(record.relatedRecords)
     }
 
@@ -192,6 +191,7 @@ class RecordViewController: BaseViewController, NSCollectionViewDelegateFlowLayo
             if let collectionItemView = collectionView.makeItem(withIdentifier: RecordCollectionItemView.identifier, for: indexPath) as? RecordCollectionItemView {
                 let relatedRecord = record.relatedRecords[indexPath.item - 1]
                 collectionItemView.record = relatedRecord
+                collectionItemView.tintColor = record.type.color
                 let highlightedRecords = Set(highlightedRecordForTouch.values)
                 let highlighted = highlightedRecords.contains(record) || selectedRecords.contains(record)
                 collectionItemView.set(highlighted: highlighted)

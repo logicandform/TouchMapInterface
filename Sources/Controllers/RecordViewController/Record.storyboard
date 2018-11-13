@@ -65,16 +65,16 @@
                                     <constraint firstItem="zDm-Zg-tp2" firstAttribute="leading" secondItem="omm-ez-zZT" secondAttribute="leading" id="tNd-Iw-34r"/>
                                 </constraints>
                             </customView>
-                            <scrollView wantsLayer="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wbr-3a-hIK" customClass="FadingScrollView" customModule="WindowExplorer" customModuleProvider="target">
+                            <scrollView wantsLayer="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wbr-3a-hIK" customClass="FadingScrollView" customModule="WindowExplorer" customModuleProvider="target">
                                 <rect key="frame" x="20" y="20" width="376" height="660"/>
                                 <clipView key="contentView" drawsBackground="NO" id="iwv-S6-dSe">
-                                    <rect key="frame" x="0.0" y="0.0" width="361" height="660"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="376" height="660"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView id="tVY-nR-uZw">
-                                            <rect key="frame" x="0.0" y="0.0" width="361" height="660"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="376" height="660"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="qqT-9P-oKM">
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="15" minimumLineSpacing="15" id="qqT-9P-oKM">
                                                 <size key="itemSize" width="300" height="80"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" red="0.025183623660000001" green="0.93838995700000005" blue="0.1151539907" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -89,12 +89,12 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="660" placeholder="YES" id="8kG-vH-x41"/>
                                 </constraints>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Eui-UX-9oI">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="Eui-UX-9oI" customClass="HiddenScroller" customModule="MapExplorer" customModuleProvider="target">
                                     <rect key="frame" x="-100" y="-100" width="300" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="e7Z-nR-qxK">
-                                    <rect key="frame" x="361" y="0.0" width="15" height="660"/>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="e7Z-nR-qxK" customClass="HiddenScroller" customModule="MapExplorer" customModuleProvider="target">
+                                    <rect key="frame" x="-100" y="-100" width="15" height="660"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

@@ -274,7 +274,6 @@
 				22A9C601219B4B0200A2C524 /* WindowType.swift */,
 				22A9C603219B4BDB00A2C524 /* WindowFactory.swift */,
 				22A9C605219B4CE100A2C524 /* RelationshipHelper.swift */,
-				22A9C613219B4F5600A2C524 /* FadingScrollView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -354,6 +353,7 @@
 			children = (
 				2290A03420E2E4BE00F028C4 /* FlippedCollectionView.swift */,
 				225C92B82130CC6D00D629EE /* ImageView.swift */,
+				22A9C613219B4F5600A2C524 /* FadingScrollView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

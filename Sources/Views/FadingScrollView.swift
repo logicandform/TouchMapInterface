@@ -19,6 +19,15 @@ class FadingScrollView: NSScrollView {
         static let fadePercentage = 0.035
     }
 
+    override var hasVerticalScroller: Bool {
+        get {
+            return false
+        }
+        set {
+
+        }
+    }
+
 
     // MARK: API
 

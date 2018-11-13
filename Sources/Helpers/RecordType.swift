@@ -20,7 +20,7 @@ enum RecordType: String, CaseIterable {
         }
     }
 
-    var timelineSortOrder: Int {
+    var sortOrder: Int {
         switch self {
         case .city:
             return 1
@@ -34,9 +34,9 @@ enum RecordType: String, CaseIterable {
     var placeholder: NSImage {
         switch self {
         case .city:
-            return NSImage(named: "event-icon")!
+            return NSImage(named: "city-icon")!
         case .event:
-            return NSImage(named: "school-icon")!
+            return NSImage(named: "event-icon")!
         case .individual:
             return NSImage(named: "individual-icon")!
         }
