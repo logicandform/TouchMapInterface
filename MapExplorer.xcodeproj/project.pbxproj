@@ -46,6 +46,9 @@
 		22A9C612219B4E6E00A2C524 /* RecordCollectionItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22A9C60D219B4DB400A2C524 /* RecordCollectionItemView.xib */; };
 		22A9C614219B4F5600A2C524 /* FadingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9C613219B4F5600A2C524 /* FadingScrollView.swift */; };
 		22A9C616219B52B200A2C524 /* NSImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9C615219B52B200A2C524 /* NSImage.swift */; };
+		22A9C618219B58DA00A2C524 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 22A9C617219B58DA00A2C524 /* cities.json */; };
+		22A9C61A219B5BCC00A2C524 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9C619219B5BCC00A2C524 /* City.swift */; };
+		22A9C61C219B640E00A2C524 /* TouchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9C61B219B640E00A2C524 /* TouchManager.swift */; };
 		22B1E2AA2045F2EE00BDDF14 /* AVKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B1E2A92045F2EE00BDDF14 /* AVKit.swift */; };
 		22C00ABB21010CB5004020F0 /* TimelineDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C00ABA21010CB5004020F0 /* TimelineDateTests.swift */; };
 		22D6F91E20B6836900C7FB5F /* NSApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D6F91D20B6836800C7FB5F /* NSApplication.swift */; };
@@ -123,6 +126,9 @@
 		22A9C60E219B4DB400A2C524 /* InfoCollectionItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoCollectionItemView.xib; sourceTree = "<group>"; };
 		22A9C613219B4F5600A2C524 /* FadingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadingScrollView.swift; sourceTree = "<group>"; };
 		22A9C615219B52B200A2C524 /* NSImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSImage.swift; sourceTree = "<group>"; };
+		22A9C617219B58DA00A2C524 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
+		22A9C619219B5BCC00A2C524 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		22A9C61B219B640E00A2C524 /* TouchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchManager.swift; sourceTree = "<group>"; };
 		22B1E2A92045F2EE00BDDF14 /* AVKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVKit.swift; sourceTree = "<group>"; };
 		22C00AB821010CB5004020F0 /* MapExplorerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapExplorerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C00ABA21010CB5004020F0 /* TimelineDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineDateTests.swift; sourceTree = "<group>"; };
@@ -279,6 +285,7 @@
 				22290C082028F9EC000E0573 /* AppDelegate.swift */,
 				226A451B214F23B500860F0E /* RecordManager.swift */,
 				22A9C5FF219B4AC300A2C524 /* WindowManager.swift */,
+				22A9C61B219B640E00A2C524 /* TouchManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -321,6 +328,7 @@
 			isa = PBXGroup;
 			children = (
 				22290C0C2028F9EC000E0573 /* Assets.xcassets */,
+				22A9C617219B58DA00A2C524 /* cities.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -354,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				222694BF20699B10007DA6FA /* Record.swift */,
+				22A9C619219B5BCC00A2C524 /* City.swift */,
 			);
 			path = Records;
 			sourceTree = "<group>";
@@ -536,6 +545,7 @@
 			files = (
 				22A9C612219B4E6E00A2C524 /* RecordCollectionItemView.xib in Resources */,
 				222AB408203DF8F5002BFAF2 /* Map.storyboard in Resources */,
+				22A9C618219B58DA00A2C524 /* cities.json in Resources */,
 				22290C0D2028F9EC000E0573 /* Assets.xcassets in Resources */,
 				22290C102028F9EC000E0573 /* Main.storyboard in Resources */,
 				22A9C5FE219B48C500A2C524 /* Record.storyboard in Resources */,
@@ -637,6 +647,7 @@
 				22290C3A2028FA35000E0573 /* Int.swift in Sources */,
 				A4A8761A210015F200113F95 /* DateRange.swift in Sources */,
 				221C62A8203B57F7009493DA /* URL.swift in Sources */,
+				22A9C61C219B640E00A2C524 /* TouchManager.swift in Sources */,
 				3F5FAAAC206043D700CF275B /* RecordAnnotation.swift in Sources */,
 				22A9C60F219B4E6300A2C524 /* InfoCollectionItemView.swift in Sources */,
 				3F5FAAAE206043E600CF275B /* RecordAnnotationView.swift in Sources */,
@@ -650,6 +661,7 @@
 				8FBBD1CF20F5140900D9334C /* ClusterAnnotationView.swift in Sources */,
 				2276AE68204E75C2001FAD8B /* BorderlessWindow.swift in Sources */,
 				22A9C611219B4E6B00A2C524 /* RecordCollectionItemView.swift in Sources */,
+				22A9C61A219B5BCC00A2C524 /* City.swift in Sources */,
 				A44F1B6520FEAF8B005FEFD1 /* RecordDate.swift in Sources */,
 				22290C382028FA35000E0573 /* MapKit.swift in Sources */,
 				2213CDCA21766326003C695F /* NSView.swift in Sources */,

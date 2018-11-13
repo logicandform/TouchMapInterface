@@ -22,20 +22,22 @@ final class RecordManager {
 
     // MARK: API
 
-    func initialize(completion: @escaping () -> Void) {
-        var types = Set(RecordType.allCases)
+    /// Creates mock records and relates them to one another
+    func initialize() {
 
-        for type in types {
-            // TODO: Create mock records
-//            RecordNetwork.records(for: type, completion: { [weak self] records in
-//                self?.store(records: records, for: type)
-//                types.remove(type)
-//                if types.isEmpty {
-//                    self?.createRelationships()
-//                    completion()
-//                }
-//            })
+        guard let jsonURL = Bundle.main.url(forResource: "cities", withExtension: "json"), let data = try? Data(contentsOf: jsonURL), let json = try? JSONSerialization .jsonObject(with: data, options: []) as? [JSON], let citiesJSON = json else {
+            print("Failed to serialize City records from cities.json file.")
+            return
         }
+
+        let cities = citiesJSON.compactMap { City(json: $0) }
+        store(cities, for: .city)
+
+//        createRelationships()
+    }
+
+    func allRecords() -> [Record] {
+        return RecordType.allCases.reduce([]) { $0 + records(for: $1) }
     }
 
     func record(for type: RecordType, id: Int) -> Record? {
@@ -57,11 +59,13 @@ final class RecordManager {
 
     // MARK: Helpers
 
-    private func store(records: [Record]?, for type: RecordType) {
-        if let records = records {
-            for record in records {
-                recordsForType[type]?[record.id] = record
-            }
+    private func createRecords(of type: RecordType) -> [Record] {
+        return []
+    }
+
+    private func store(_ records: [Record], for type: RecordType) {
+        for record in records {
+            recordsForType[type]?[record.id] = record
         }
     }
 
@@ -74,6 +78,6 @@ final class RecordManager {
     }
 
     private func makeRelationships(for record: Record) {
-       // TODO
+
     }
 }

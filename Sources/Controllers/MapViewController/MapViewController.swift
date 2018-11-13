@@ -13,13 +13,12 @@ struct MapConstants {
 }
 
 
-class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, NSGestureRecognizerDelegate, SocketManagerDelegate {
+class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, NSGestureRecognizerDelegate {
     static let storyboard = "Map"
 
     @IBOutlet private weak var mapView: CustomMapView!
 
     var gestureManager: GestureManager!
-    private let socketManager = SocketManager(networkConfiguration: NetworkConfiguration(nodePort: Configuration.broadcastPort))
     private var annotationForTouch = [Touch: MKAnnotation]()
     private var currentTextScale: CGFloat = 1
     private var initialized = false
@@ -38,17 +37,6 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         static let indicatorColor = NSColor.white
     }
 
-    private struct Keys {
-        static let id = "id"
-        static let app = "app"
-        static let type = "type"
-        static let group = "group"
-        static let status = "status"
-        static let position = "position"
-        static let settings = "settings"
-        static let recordType = "recordType"
-    }
-
 
     // MARK: Init
 
@@ -63,7 +51,10 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     override func viewDidLoad() {
         super.viewDidLoad()
         gestureManager = GestureManager(responder: self)
-        socketManager.delegate = self
+        TouchManager.instance.mapGestureManager = gestureManager
+        gestureManager.touchReceived = { [weak self] touch in
+            self?.displayIndicator(for: touch)
+        }
 
         setupMap()
         setupGestures()
@@ -173,23 +164,6 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     }
 
 
-    // MARK: SocketManagerDelegate
-
-    func handleError(_ message: String) {
-        print("Socket error: \(message)")
-    }
-
-    func handlePacket(_ packet: Packet) {
-        guard let touch = Touch(from: packet) else {
-            return
-        }
-
-        convertToScreen(touch)
-        displayIndicator(for: touch)
-        gestureManager.handle(touch)
-    }
-
-
     // MARK: GestureResponder
 
     func draggableInside(bounds: CGRect) -> Bool {
@@ -254,7 +228,7 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         switch annotation {
         case let recordAnnotation as RecordAnnotation:
             let offsetPosition = CGPoint(x: annotationPosition.x, y: annotationPosition.y - Constants.recordWindowOffset)
-            postRecordNotification(for: recordAnnotation.record, at: offsetPosition)
+            displayWindow(for: recordAnnotation.record, at: offsetPosition)
         case let clusterAnnotation as MKClusterAnnotation:
             let region = restrainSpan(for: clusterAnnotation.boundingCoordinateRegion())
             var newMapRect = MKMapRect(coordinateRegion: region).withPreservedAspectRatio(in: mapView)
@@ -267,17 +241,20 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         }
     }
 
-    private func postRecordNotification(for record: Record, at position: CGPoint) {
+    private func displayWindow(for record: Record, at location: CGPoint) {
         guard let window = view.window else {
             return
         }
 
-        // TODO: Display window at point
+        let windowType = WindowType.record(record)
+        let originX = location.x - windowType.size.width / 2
+        let originY = max(style.windowMargins, location.y - windowType.size.height)
+        let positionInScreen = window.frame.origin + CGPoint(x: originX, y: originY)
+        WindowManager.instance.display(windowType, at: positionInScreen)
     }
 
     private func addRecordsToMap() {
-        let records = RecordManager.instance.records(for: .school)
-        // TODO: Use all records
+        let records = RecordManager.instance.allRecords()
 
         var adjustedRecords = [Record]()
         for record in records {
@@ -335,17 +312,6 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         let scaleFactor = (1 - mapScalePercent).rounded(toPlaces: 1)
         let clamped = clamp(scaleFactor, min: 0.4, max: 1)
         return CGFloat(clamped)
-    }
-
-    /// Converts a position received from a touch screen to the coordinate of the current devices bounds.
-    private func convertToScreen(_ touch: Touch) {
-        guard touch.screen == Configuration.touchScreenPosition else {
-            return
-        }
-        let screen = NSScreen.at(position: touch.screen)
-        let xPos = (touch.position.x / Configuration.touchScreen.touchSize.width * CGFloat(screen.frame.width)) + screen.frame.origin.x
-        let yPos = (1 - touch.position.y / Configuration.touchScreen.touchSize.height) * CGFloat(screen.frame.height)
-        touch.position = CGPoint(x: xPos, y: yPos)
     }
 
     /// Displays a touch indicator at the given position

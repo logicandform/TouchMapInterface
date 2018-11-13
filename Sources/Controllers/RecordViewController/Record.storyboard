@@ -5,10 +5,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Record Collection View Controller-->
+        <!--Record View Controller-->
         <scene sceneID="BXn-Dg-Skk">
             <objects>
-                <viewController id="4yl-WQ-We9" customClass="RecordCollectionViewController" customModule="WindowExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4yl-WQ-We9" customClass="RecordViewController" customModule="MapExplorer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="rNh-S2-MLJ">
                         <rect key="frame" x="0.0" y="0.0" width="416" height="723"/>
                         <autoresizingMask key="autoresizingMask"/>

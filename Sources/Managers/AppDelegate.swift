@@ -12,7 +12,7 @@ struct Configuration {
     static let touchScreenPosition = 1
     static let touchScreen = TouchScreen.pct2485
     static let customMBTilesPath: String? = "/Users/Tim/Xcode/UBC/CanadaShoreIceRoad.mbtiles"
-    static let broadcastPort: UInt16 = 13001
+    static let touchPort: UInt16 = 13001
 }
 
 
@@ -20,9 +20,9 @@ struct Configuration {
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        RecordManager.instance.initialize { [weak self] in
-            self?.setupApplication()
-        }
+        TouchManager.instance.setupTouchSocket()
+        RecordManager.instance.initialize()
+        setupApplication()
     }
 
 
