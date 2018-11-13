@@ -131,7 +131,7 @@ class RecordAnnotationView: MKAnnotationView, AnimatableAnnotation {
     }
 
     private func load(_ annotation: RecordAnnotation) {
-        title.string = NSMutableAttributedString(string: annotation.record.shortestTitle(), attributes: style.mapLabelAttributes)
+        title.string = NSMutableAttributedString(string: annotation.record.title, attributes: style.mapLabelAttributes)
         let titleSize = title.preferredFrameSize()
         title.frame = CGRect(origin: CGPoint(x: Constants.titleLeftOffset, y: -titleSize.height/2), size: titleSize)
         layer?.addSublayer(title)

@@ -50,7 +50,7 @@ class RecordViewController: BaseViewController, NSCollectionViewDelegateFlowLayo
         view.addBordersUnderHighlight()
         windowDragArea.alphaValue = 0
         collectionView.alphaValue = 0
-        titleLabel.attributedStringValue = NSAttributedString(string: record.shortestTitle(), attributes: style.windowTitleAttributes)
+        titleLabel.attributedStringValue = NSAttributedString(string: record.title, attributes: style.windowTitleAttributes)
         windowDragAreaHighlight.layer?.backgroundColor = style.collectionColor.cgColor
     }
 
@@ -229,18 +229,15 @@ class RecordViewController: BaseViewController, NSCollectionViewDelegateFlowLayo
     }
 
     private func select(_ record: Record) {
-        if let windowType = WindowType(for: record) {
-            selectedRecords.insert(record)
-            relationshipHelper?.display(windowType)
-        }
+        let windowType = WindowType.record(record)
+        selectedRecords.insert(record)
+        relationshipHelper?.display(windowType)
     }
 
     private func record(from controller: BaseViewController) -> Record? {
         switch controller {
         case let recordViewController as RecordViewController:
             return recordViewController.record
-        case let recordCollectionViewController as RecordCollectionViewController:
-            return recordCollectionViewController.record
         default:
             return nil
         }

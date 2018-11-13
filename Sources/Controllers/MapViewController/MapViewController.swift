@@ -276,10 +276,8 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
     }
 
     private func addRecordsToMap() {
-        let schools = RecordManager.instance.records(for: .school)
-        let events = RecordManager.instance.records(for: .event)
-        let collections = RecordManager.instance.records(for: .collection).compactMap { $0 as? RecordCollection }.filter { $0.collectionType == .map }
-        let records: [Record] = schools + events + collections
+        let records = RecordManager.instance.records(for: .school)
+        // TODO: Use all records
 
         var adjustedRecords = [Record]()
         for record in records {

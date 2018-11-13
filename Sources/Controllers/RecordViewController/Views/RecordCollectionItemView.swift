@@ -57,7 +57,7 @@ class RecordCollectionItemView: NSCollectionViewItem {
             return
         }
 
-        titleTextField.attributedStringValue = NSAttributedString(string: record.shortestTitle(), attributes: style.recordSmallHeaderAttributes)
+        titleTextField.attributedStringValue = NSAttributedString(string: record.title, attributes: style.recordSmallHeaderAttributes)
         let placeholder = record.type.placeholder.tinted(with: record.type.color)
         setImage(placeholder, scaling: .center)
     }

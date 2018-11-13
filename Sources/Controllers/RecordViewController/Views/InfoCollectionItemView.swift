@@ -30,7 +30,7 @@ class InfoCollectionItemView: NSCollectionViewItem {
         let dateText = NSAttributedString(string: record.dates?.description(small: false) ?? "", attributes: style.recordDateAttributes)
         let dateHeight = hasDate ? dateText.height(containerWidth: width) : 0
         let dateMargins = hasDate ? Constants.textFieldVerticalMargin : 0
-        let descriptionText = NSAttributedString(string: record.description ?? "", attributes: style.recordDescriptionAttributes)
+        let descriptionText = NSAttributedString(string: record.description, attributes: style.recordDescriptionAttributes)
         let descriptionHeight = descriptionText.height(containerWidth: width)
         let descriptionMargins = Constants.textFieldVerticalMargin * 2
 
@@ -50,7 +50,7 @@ class InfoCollectionItemView: NSCollectionViewItem {
         dateAttributes[.foregroundColor] = record.type.color
         let dateText = NSAttributedString(string: record.dates?.description(small: false) ?? "", attributes: dateAttributes)
         dateTextField.attributedStringValue = dateText
-        descriptionTextField.attributedStringValue = NSAttributedString(string: record.description ?? "", attributes: style.recordDescriptionAttributes)
+        descriptionTextField.attributedStringValue = NSAttributedString(string: record.description, attributes: style.recordDescriptionAttributes)
         let dateHeight = dateText.height(containerWidth: view.frame.width)
         dateHeightConstraint.constant = hasDate ? dateHeight : 0
         dateTopConstraint.constant = hasDate ? Constants.textFieldVerticalMargin : 0

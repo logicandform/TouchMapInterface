@@ -41,7 +41,7 @@ final class RelationshipHelper: RelationshipDelegate {
                 controller.updateFromParent(frame: parentFrame, animate: true)
                 updateChildPositionsFrom(frame: parentFrame, animate: true)
             }
-        } else if let controller = WindowManager.instance.display(window) as? BaseViewController {
+        } else if let controller = WindowManager.instance.display(window) {
             controller.parentDelegate = self
             indexForController[controller] = nextIndex()
             removeOldestIfNecessary()

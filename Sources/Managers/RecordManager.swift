@@ -14,7 +14,7 @@ final class RecordManager {
 
     /// Use singleton
     private init() {
-        for type in RecordType.allValues {
+        for type in RecordType.allCases {
             recordsForType[type] = [:]
         }
     }
@@ -23,17 +23,18 @@ final class RecordManager {
     // MARK: API
 
     func initialize(completion: @escaping () -> Void) {
-        var types = Set(RecordType.allValues)
+        var types = Set(RecordType.allCases)
 
         for type in types {
-            RecordNetwork.records(for: type, completion: { [weak self] records in
-                self?.store(records: records, for: type)
-                types.remove(type)
-                if types.isEmpty {
-                    self?.createRelationships()
-                    completion()
-                }
-            })
+            // TODO: Create mock records
+//            RecordNetwork.records(for: type, completion: { [weak self] records in
+//                self?.store(records: records, for: type)
+//                types.remove(type)
+//                if types.isEmpty {
+//                    self?.createRelationships()
+//                    completion()
+//                }
+//            })
         }
     }
 
@@ -73,15 +74,6 @@ final class RecordManager {
     }
 
     private func makeRelationships(for record: Record) {
-        for id in record.relatedSchoolIDs {
-            if let school = recordsForType[.school]?[id] as? School {
-                record.relatedSchools.append(school)
-            }
-        }
-        for id in record.relatedEventIDs {
-            if let event = recordsForType[.event]?[id] as? Event {
-                record.relatedEvents.append(event)
-            }
-        }
+       // TODO
     }
 }

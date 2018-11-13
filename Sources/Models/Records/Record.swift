@@ -9,9 +9,14 @@ class Record: Hashable {
     let type: RecordType
     let id: Int
     let title: String
+    let description: String
     let dates: DateRange?
-    let coordinate: CLLocationCoordinate2D?
-    var relatedRecordsOfType = [RecordType: Record]()
+    var coordinate: CLLocationCoordinate2D?
+    var relatedRecordsForType = [RecordType: Set<Record>]()
+
+    var relatedRecords: [Record] {
+        return relatedRecordsForType.values.reduce([], +)
+    }
 
     var hashValue: Int {
         return id.hashValue ^ type.hashValue
@@ -20,10 +25,11 @@ class Record: Hashable {
 
     // MARK: Init
 
-    init(type: RecordType, id: Int, title: String, dates: DateRange?, coordinate: CLLocationCoordinate2D?) {
+    init(type: RecordType, id: Int, title: String, description: String, dates: DateRange?, coordinate: CLLocationCoordinate2D?) {
         self.type = type
         self.id = id
         self.title = title
+        self.description = description
         self.dates = dates
         self.coordinate = coordinate
     }

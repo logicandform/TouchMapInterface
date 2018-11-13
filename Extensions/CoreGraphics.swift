@@ -5,32 +5,15 @@ import CoreGraphics
 import AppKit
 
 
+extension CGFloat {
+
+    var isZero: Bool {
+        return self == 0
+    }
+}
+
+
 extension CGRect {
-
-    private struct Keys {
-        static let x = "x"
-        static let y = "y"
-        static let width = "width"
-        static let height = "height"
-    }
-
-    init?(json: JSON) {
-        self.init()
-        guard let x = json[Keys.x] as? CGFloat, let y = json[Keys.y] as? CGFloat, let width = json[Keys.width] as? CGFloat, let height = json[Keys.height] as? CGFloat else {
-            return nil
-        }
-
-        self.origin = CGPoint(x: x, y: y)
-        self.size = CGSize(width: width, height: height)
-    }
-
-    func toJSON() -> JSON {
-        return [Keys.x: origin.x, Keys.y: origin.y, Keys.width: size.width, Keys.height: size.height]
-    }
-
-    var center: CGPoint {
-        return CGPoint(x: midX, y: midY)
-    }
 
     func transformed(from rect: CGRect) -> CGRect {
         return CGRect(origin: origin.transformed(from: rect), size: size)
@@ -65,7 +48,12 @@ extension CGPoint {
 
     /// Subtracts the given view's origin from the point.
     func transformed(to view: NSView) -> CGPoint {
-        return CGPoint(x: x - view.frame.origin.x, y: y - view.frame.origin.y)
+        return CGPoint(x: x - view.frame.minX, y: y - view.frame.minY)
+    }
+
+    /// Subtracts the given view's origin from the point.
+    func transformed(to frame: CGRect) -> CGPoint {
+        return CGPoint(x: x - frame.minX, y: y - frame.minY)
     }
 
     /// Adds the given view's origin from the point.
@@ -73,9 +61,9 @@ extension CGPoint {
         return CGPoint(x: x + frame.minX, y: y + frame.minY)
     }
 
-    /// Subtracts the given view's origin from the point.
-    func transformed(to frame: CGRect) -> CGPoint {
-        return CGPoint(x: x - frame.minX, y: y - frame.minY)
+    /// Flips the coordinate system of the point in a given frame.
+    func inverted(in frame: CGRect) -> CGPoint {
+        return CGPoint(x: x, y: frame.size.height - y)
     }
 
     /// Flips the coordinate system of the point in a given view.
@@ -102,10 +90,6 @@ extension CGPoint {
 
     static func - (lhs: CGPoint, rhs: CGVector) -> CGPoint {
         return CGPoint(x: lhs.x - rhs.dx, y: lhs.y - rhs.dy)
-    }
-
-    static func / (lhs: CGPoint, rhs: CGFloat) -> CGPoint {
-        return CGPoint(x: lhs.x / rhs, y: lhs.y / rhs)
     }
 
     static func += (lhs: inout CGPoint, rhs: CGVector) {
@@ -160,6 +144,10 @@ extension CGVector {
         return Double(sqrt(pow(self.dx, 2) + pow(self.dy, 2)))
     }
 
+    func round() -> CGPoint {
+        return CGPoint(x: self.dx.rounded(), y: self.dy.rounded())
+    }
+
     static func * (lhs: CGVector, rhs: CGVector) -> CGVector {
         return CGVector(dx: lhs.dx * rhs.dx, dy: lhs.dy * rhs.dy)
     }
@@ -174,10 +162,6 @@ extension CGVector {
 
     static func + (lhs: CGVector, rhs: CGVector) -> CGVector {
         return CGVector(dx: lhs.dx + rhs.dx, dy: lhs.dy + rhs.dy)
-    }
-
-    static func - (lhs: CGVector, rhs: CGVector) -> CGVector {
-        return CGVector(dx: lhs.dx - rhs.dx, dy: lhs.dy - rhs.dy)
     }
 
     static func *= (lhs: inout CGVector, rhs: Double) {
@@ -199,6 +183,14 @@ extension CGVector {
 
 extension CGSize {
 
+    static func + (lhs: inout CGSize, rhs: CGSize) -> CGSize {
+        return CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
+    }
+
+    static func - (lhs: inout CGSize, rhs: CGSize) -> CGSize {
+        return CGSize(width: lhs.width - rhs.width, height: lhs.height - rhs.height)
+    }
+
     static func *= (lhs: inout CGSize, rhs: CGFloat) {
         lhs.width *= rhs
         lhs.height *= rhs
@@ -207,6 +199,11 @@ extension CGSize {
     static func /= (lhs: inout CGSize, rhs: CGFloat) {
         lhs.width /= rhs
         lhs.height /= rhs
+    }
+
+    static func += (lhs: inout CGSize, rhs: CGSize) {
+        lhs.width += rhs.width
+        lhs.height += rhs.height
     }
 
     static func += (lhs: inout CGSize, rhs: CGFloat) {
