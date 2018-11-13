@@ -11,9 +11,14 @@ final class Style {
 
     let darkBackground = NSColor(srgbRed: 30/255, green: 33/255, blue: 35/255, alpha: 0.98)
     let darkBackgroundOpaque = NSColor(srgbRed: 17/255, green: 17/255, blue: 17/255, alpha: 1)
+    let dragAreaBackground = NSColor(srgbRed: 30/255, green: 33/255, blue: 35/255, alpha: 0.98)
+    let menuTintColor = NSColor(calibratedRed: 0, green: 0.90, blue: 0.70, alpha: 1)
+    let touchIndicatorColor = NSColor.gray
     let defaultBorderColor = NSColor(white: 0.5, alpha: 1)
     let defaultBorderWidth: CGFloat = 1
-    let windowBorderZPosition: CGFloat = 10
+    let defaultBorderZPosition: CGFloat = 20
+    let windowHighlightWidth: CGFloat = 3
+    let windowHighlightZPosition: CGFloat = 10
 
 
     // MARK: RecordType Colors

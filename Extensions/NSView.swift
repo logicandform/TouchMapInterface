@@ -14,6 +14,22 @@ enum BorderPosition: CaseIterable {
 
 extension NSView {
 
+
+    /// Animates the transition of the view's layer contents to a new image
+    func transition(to image: NSImage?, duration: TimeInterval, type: CATransitionType = .fade) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.type = type
+        layer?.add(transition, forKey: "contents")
+        layer?.contents = image
+    }
+
+    func addBordersUnderHighlight() {
+        addBorder(for: .left, indent: style.windowHighlightWidth)
+        addBorder(for: .right, indent: style.windowHighlightWidth)
+        addBorder(for: .bottom)
+    }
+
     @discardableResult
     func addBorder(for position: BorderPosition, thickness: CGFloat = style.defaultBorderWidth, indent: CGFloat = 0) -> CALayer {
         let border = CALayer()
@@ -37,5 +53,49 @@ extension NSView {
 
         layer?.addSublayer(border)
         return border
+    }
+}
+
+
+extension NSCollectionView {
+
+    func item(at row: Int, section: Int = 0) -> NSCollectionViewItem? {
+        return item(at: IndexPath(item: row, section: section))
+    }
+}
+
+
+extension NSScrollView {
+
+    var canScroll: Bool {
+        let contentViewHeight = contentView.documentRect.size.height
+        let scrollViewHeight = bounds.size.height
+        return contentViewHeight > scrollViewHeight
+    }
+
+    func canScroll(contentHeight: CGFloat? = nil) -> Bool {
+        let scrollViewHeight = bounds.size.height
+        if let contentHeight = contentHeight {
+            return contentHeight > scrollViewHeight
+        }
+
+        let contentViewHeight = contentView.documentRect.size.height
+        return contentViewHeight > scrollViewHeight
+    }
+
+    func hasReachedBottom(with delta: CGFloat = 0) -> Bool {
+        let contentOffsetY = contentView.bounds.origin.y + delta
+        return contentOffsetY >= verticalOffsetForBottom
+    }
+
+    func hasReachedTop(with delta: CGFloat = 0) -> Bool {
+        let contentOffsetY = contentView.bounds.origin.y + delta
+        return contentOffsetY <= 0
+    }
+
+    private var verticalOffsetForBottom: CGFloat {
+        let scrollViewHeight = bounds.size.height
+        let scrollViewContentSizeHeight = contentView.documentRect.size.height
+        return scrollViewContentSizeHeight - scrollViewHeight
     }
 }
