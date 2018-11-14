@@ -1,6 +1,7 @@
 excluded:
   - SQLite.swift
   - Templates
+  - Pods
 
 whitelist_rules:
   - attributes

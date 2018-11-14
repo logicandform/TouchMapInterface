@@ -241,18 +241,6 @@ class MapViewController: NSViewController, MKMapViewDelegate, GestureResponder, 
         }
     }
 
-    private func displayWindow(for record: Record, at location: CGPoint) {
-        guard let window = view.window else {
-            return
-        }
-
-        let windowType = WindowType.record(record)
-        let originX = location.x - windowType.size.width / 2
-        let originY = max(style.windowMargins, location.y - windowType.size.height)
-        let positionInScreen = window.frame.origin + CGPoint(x: originX, y: originY)
-        WindowManager.instance.display(windowType, at: positionInScreen)
-    }
-
     private func addRecordsToMap() {
         let records = RecordManager.instance.allRecords()
 
